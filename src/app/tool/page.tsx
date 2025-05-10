@@ -59,15 +59,19 @@ const LanguageSelectButton = ({
 const LanguageCard = ({ 
   elements, 
   handleSelect, 
-  selectedLanguage, 
+  selectedLanguage,
+  isOpen,
 }: { 
   elements: { language: string, image: string }[],  
   handleSelect: (language: string) => void;
   selectedLanguage: string;
-
+  isOpen: boolean;
 }) => {
   return(
-    <div className="flex flex-row justify-center items-center mt-20"> 
+    <div className={`flex flex-row justify-center items-center mt-20 transition-all duration-500 transform origin-top 
+    ${isOpen 
+    ? 'opacity-100 scale-100 translate-y-0' 
+    : 'opacity-0 scale-95 -translate-y-20 pointer-events-none'}`}> 
       <div className="flex flex-col w-[550px] bg-gray-800/40 rounded-lg p-5">
         <h2 className="text-2xl font-bold mb-5 text-center">Choose a language</h2>
         <div className="border border-gray-300 rounded-lg flex flex-wrap justify-center items-center gap-8 p-5">
@@ -123,7 +127,7 @@ export default function Tool() {
             <h1 className="text-2xl font-bold"> Selected language</h1>
             <LanguageSelectButton image={selectedLanguage.image} language={selectedLanguage.language} handleClick={() => setIsOpen(!isOpen)} isOpen={isOpen}/>
           </div>
-          {isOpen && <LanguageCard elements={elements} handleSelect={handleSelect} selectedLanguage={selectedLanguage.language}/>}
+          <LanguageCard elements={elements} handleSelect={handleSelect} selectedLanguage={selectedLanguage.language} isOpen={isOpen}/>}
         </div>
       </div>
     </div>

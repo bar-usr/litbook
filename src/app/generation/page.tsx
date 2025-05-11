@@ -10,87 +10,142 @@ const TextBox = ({title, text}: {title: string, text: string}) => {
   )
 }
 
-const MultipleChoice = () => {
+type MultipleChoiceProps = {
+    question: string,
+    answers: string[]
+}
+
+type TrueFalseProps = {
+    statements: { statement: string, is_true: boolean }[]
+}
+
+type FillInTheBlankProps = {
+    sentences: { sentence: string, blanks_index: number }[]
+}
+
+type ShortAnswerProps = {
+    question: string,
+    answer: string
+}
+
+const MultipleChoice = ({ question, answers }: MultipleChoiceProps) => {
     return (
         <div>
-            <h2>True False</h2>
+            <h2>{ question }</h2>
+            <div className="flex flex-col gap-2">
+                {answers.map((answer, index) => (
+                    <div key={index}>{answer}</div>
+                ))}
+            </div>
         </div>
     )
 }
 
-const TrueFalse = () => {
+const TrueFalse = ({ statements }: TrueFalseProps) => {
     return (
         <div>
             <h2>True False</h2>
+            <div className="flex flex-col gap-2">
+                {statements.map((statement, index) => (
+                    <div key={index}>{statement.statement}</div>
+                ))}
+            </div>
         </div>
     )
 }
 
-const FillInTheBlank = () => {
+const FillInTheBlank = ({ sentences }: FillInTheBlankProps) => {
     return (
         <div>
             <h2>Fill In The Blank</h2>
+            <div className="flex flex-col gap-2">
+                {sentences.map((sentence, index) => (
+                    <div key={index}>{sentence.sentence}</div>
+                ))}
+            </div>
         </div>
     )
 }
 
-const ShortAnswer = () => {
+const ShortAnswer = ({ question, answer }: ShortAnswerProps) => {
     return (
         <div>
-            <h2>Short Answer</h2>
+            <h2>{question}</h2>
+            <div className="flex flex-col gap-2">
+                <div>{answer}</div>
+            </div>
         </div>
     )
 }
 
-const ComprehensionQuestions = () => {
+const Question = ({
+    question_component: QuestionComponent,
+    question_array
+}: {
+    question_component: React.ComponentType<{ question: string; answers: string[] }>,
+    question_array:
+}) => {
     return (
-        <div className="flex flex-col gap-5">
-            <h2>Comprehension Questions</h2>
-            <MultipleChoice />
-            <TrueFalse />
-            <FillInTheBlank />
-            <ShortAnswer /> 
+        <div className="rounded-lg p-5 flex flex-col gap-5 bg-gray-800/50">
+            <h2>{question_array[0]?.type}</h2>
+            <div className="flex flex-col gap-5">
+                {question_array.map((type, index) => (
+                    <QuestionComponent 
+                        key={index}
+                        question={type.questions[0]}
+                        answers={["Option 1", "Option 2", "Option 3", "Option 4"]}
+                    />
+                ))}     
+            </div>
         </div>
     )
 }
 
-const VocabularyQuestions = () => {
+const ComprehensionQuestions = (multiple_choice_array: {type: string, questions: {question: string, answers: string[]}[]}[]) => {
     return (
-        <div className="flex flex-col gap-5">
-            <h2>Vocabulary Questions</h2>
-            <MultipleChoice />
-            <TrueFalse />
-            <FillInTheBlank />
-            <ShortAnswer /> 
+        <div>
+            <Question question_component={MultipleChoice} question_array={multiple_choice_array} />
         </div>
     )
 }
 
-const GrammarQuestions = () => {
+const VocabularyQuestions = (multiple_choice_array: {type: string, questions: {question: string, answers: string[]}[]}[]) => {
     return (
         <div className="flex flex-col gap-5">
-            <h2>Grammar Questions</h2>
-            <MultipleChoice />
-            <TrueFalse />
-            <FillInTheBlank />
-            <ShortAnswer /> 
+            <Question question_component={MultipleChoice} question_array={multiple_choice_array} />
         </div>
     )
 }
 
-const UseOfLanguageQuestions = () => {
+const GrammarQuestions = (multiple_choice_array: {type: string, questions: {question: string, answers: string[]}[]}[]) => {
     return (
         <div className="flex flex-col gap-5">
-            <h2>Use of Language Questions</h2>
-            <MultipleChoice />
-            <TrueFalse />
-            <FillInTheBlank />
-            <ShortAnswer /> 
+            <Question question_component={MultipleChoice} question_array={multiple_choice_array} />
+        </div>
+    )
+}
+
+const UseOfLanguageQuestions = (multiple_choice_array: {type: string, questions: {question: string, answers: string[]}[]}[]) => {
+    return (
+        <div className="flex flex-col gap-5">
+            <Question question_component={MultipleChoice} question_array={multiple_choice_array} />
         </div>
     )
 }
 
 export default function Generation() {
+
+    const multiple_choice_array = [
+        {
+            questions: [{question: "What is the capital of France?", answers: ["Paris", "Berlin", "Rome", "Madrid"]}]
+        }
+]
+
+    const multipleChoiceProps: MultipleChoiceProps = {
+        question: "What is the capital of France?",
+        answers: ["Paris", "London", "Berlin", "Rome"],
+    };
+
   return (
     <div>
         <div className="flex flex-col gap-5 p-10">
@@ -108,10 +163,7 @@ export default function Generation() {
 
 
                 <div className="flex flex-col gap-20">
-                    <ComprehensionQuestions />
-                    <VocabularyQuestions />
-                    <GrammarQuestions />
-                    <UseOfLanguageQuestions />
+                    <ComprehensionQuestions multiple_choice_array={multipleChoiceProps}/>
                 </div>
             </div>
         </div>

@@ -72,8 +72,7 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 
 ## Acknowledgments 🙏
 
-- Flag icons from [country-flags](https://flaticon.com)
-- Topic images from [unsplash](https://flaticon.com)
+- Icons from [flaticon](https://flaticon.com)
 
 ## Contact 📧
 

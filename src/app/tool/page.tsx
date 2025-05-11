@@ -1,5 +1,6 @@
 'use client'
 
+import { useRouter } from "next/navigation";
 import { useState } from "react";
 
 const CardElement = ({
@@ -151,6 +152,8 @@ const SelectorCard = ({
 }
 
 export default function Tool() {
+  const router = useRouter();
+
   const [activeSelector, setActiveSelector] = useState<string | null>(null);
 
   const handleSelectorToggle = (selectorType: string) => {
@@ -202,9 +205,10 @@ export default function Tool() {
     {text: "Long"}, //image: "images/length_images/long.png", size: "w-[70px] h-[70px]"},
   ]
   
+
   return (
     <div>
-      <div className="mt-10 flex flex-col justify-center items-center">
+      <div className="mt-10 flex flex-col gap-10 justify-center items-center">
         <div className="flex flex-col justify-center items-center gap-5">
           <SelectorWrapper 
             selectorType="language" 
@@ -231,6 +235,9 @@ export default function Tool() {
             onToggle={() => handleSelectorToggle("length")}
           />
         </div>
+        <button onClick={() => router.push('/generation')} className="bg-orange-400 text-white text-2xl hover:bg-orange-500 hover:scale-105 transition-all duration-400 hover:cursor-pointer px-10 py-4 rounded-lg">
+          Generate
+        </button>
       </div>
     </div>
   )
